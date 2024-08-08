@@ -37,3 +37,58 @@ export const signin = async (req, res, next) => {
     next(error);
   }
 };
+
+// Google OAuth handler
+export const google = async (req, res, next) => {
+  try {
+    // Check if the user already exists in the database
+    const user = await User.findOne({ email: req.body.email });
+
+    if (user) {
+      // If user exists, generate a JWT token
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+      // Exclude the password from the user object before sending the response
+      const { password: pass, ...rest } = user._doc;
+
+      // Set the JWT token in an HTTP-only cookie and send the user data in the response
+      res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(rest);
+    } else {
+      // If user does not exist, create a new user
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+
+      const newUser = new User({
+        username:
+          req.body.name.split(" ").join("").toLowerCase() +
+          Math.random().toString(36).slice(-4),
+        email: req.body.email,
+        password: hashedPassword,
+        avatar: req.body.photo,
+      });
+
+      // Save the new user to the database
+      await newUser.save();
+
+      // Generate a JWT token
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+
+      // Exclude the password from the user object before sending the response
+      const { password: pass, ...rest } = newUser._doc;
+
+      // Set the JWT token in an HTTP-only cookie and send the user data in the response
+      res
+        .cookie("access_token", token, { httpOnly: true })
+        .status(200)
+        .json(rest);
+    }
+  } catch (error) {
+    // Pass any errors to the error handler middleware
+    next(error);
+  }
+};
