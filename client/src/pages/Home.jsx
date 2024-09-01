@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
 import SwiperCore from "swiper";
 import "swiper/css/bundle";
 import ListingItem from "../components/ListingItem";
@@ -11,7 +11,7 @@ export default function Home() {
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
   SwiperCore.use([Navigation]);
-  console.log(offerListings);
+
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
@@ -48,21 +48,21 @@ export default function Home() {
   return (
     <div>
       {/* top */}
-      <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
-        <h1 className="text-slate-700 font-bold text-3xl lg:text-6xl">
+      <div className="flex flex-col gap-6 p-8 md:p-20 px-4 max-w-4xl mx-auto">
+        <h1 className="text-slate-700 font-extrabold text-6xl md:text-8xl text-center leading-tight">
           Find your next <span className="text-slate-500">perfect</span>
           <br />
           place with ease
         </h1>
-        <div className="text-gray-400 text-xs sm:text-sm">
-          Aayush Estate is the best place to find your next perfect place to
-          live.
+        <p className="text-gray-500 text-sm md:text-lg text-center mt-4">
+          Havencrest Estate offers a curated selection of properties to suit
+          your needs.
           <br />
-          We have a wide range of properties for you to choose from.
-        </div>
+          Your dream home is just a click away.
+        </p>
         <Link
           to={"/search"}
-          className="text-xs sm:text-sm text-blue-800 font-bold hover:underline"
+          className="text-sm md:text-lg text-slate-500 font-semibold text-center mt-6 hover:underline hover:text-slate-900 transition duration-500 hover:underline-offset-4"
         >
           Let&apos;s get started...
         </Link>
@@ -153,4 +153,3 @@ export default function Home() {
     </div>
   );
 }
-

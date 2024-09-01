@@ -8,6 +8,7 @@ import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 import listingRouter from "./routes/listing.route.js";
 import cookieParser from "cookie-parser";
+import helmet from "helmet"; // Import helmet for security headers
 
 dotenv.config();
 mongoose
@@ -24,6 +25,13 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+
+// Security headers
+app.use(
+  helmet({
+    crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }, // Adjust the policy
+  })
+);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000!");

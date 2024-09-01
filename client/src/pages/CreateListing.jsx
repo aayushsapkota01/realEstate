@@ -9,6 +9,7 @@ import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function CreateListing() {
     type: "rent",
     bedrooms: 1,
     bathrooms: 1,
-    regularPrice: 50,
+    regularPrice: 100,
     discountPrice: 0,
     offer: false,
     parking: false,
@@ -31,7 +32,8 @@ export default function CreateListing() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(formData);
+
+
   const handleImageSubmit = () => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
@@ -160,7 +162,7 @@ export default function CreateListing() {
           <input
             type="text"
             placeholder="Name"
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-lg border-slate-400"
             id="name"
             maxLength="62"
             minLength="10"
@@ -171,7 +173,7 @@ export default function CreateListing() {
           <textarea
             type="text"
             placeholder="Description"
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-lg border-slate-400"
             id="description"
             required
             onChange={handleChange}
@@ -180,7 +182,7 @@ export default function CreateListing() {
           <input
             type="text"
             placeholder="Address"
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-lg border-slate-400"
             id="address"
             required
             onChange={handleChange}
@@ -246,7 +248,7 @@ export default function CreateListing() {
                 min="1"
                 max="10"
                 required
-                className="p-3 border border-gray-300 rounded-lg"
+                className="p-3 border border-slate-400 rounded-lg"
                 onChange={handleChange}
                 value={formData.bedrooms}
               />
@@ -259,7 +261,7 @@ export default function CreateListing() {
                 min="1"
                 max="10"
                 required
-                className="p-3 border border-gray-300 rounded-lg"
+                className="p-3 border border-slate-400 rounded-lg"
                 onChange={handleChange}
                 value={formData.bathrooms}
               />
@@ -272,7 +274,7 @@ export default function CreateListing() {
                 min="50"
                 max="10000000"
                 required
-                className="p-3 border border-gray-300 rounded-lg"
+                className="p-3 border border-slate-400 rounded-lg"
                 onChange={handleChange}
                 value={formData.regularPrice}
               />
@@ -291,15 +293,15 @@ export default function CreateListing() {
                   min="0"
                   max="10000000"
                   required
-                  className="p-3 border border-gray-300 rounded-lg"
+                  className="p-3 border border-slate-400 rounded-lg"
                   onChange={handleChange}
                   value={formData.discountPrice}
                 />
                 <div className="flex flex-col items-center">
                   <p>Discounted price</p>
-                  {formData.type === 'rent' && (
-                  <span className='text-xs'>($ / month)</span>
-                )}
+                  {formData.type === "rent" && (
+                    <span className="text-xs">($ / month)</span>
+                  )}
                 </div>
               </div>
             )}
@@ -325,7 +327,7 @@ export default function CreateListing() {
               type="button"
               disabled={uploading}
               onClick={handleImageSubmit}
-              className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
+              className="p-3 text-white border bg-green-700 rounded-lg uppercase hover:shadow-lg disabled:opacity-80"
             >
               {uploading ? "Uploading..." : "Upload"}
             </button>
@@ -355,11 +357,19 @@ export default function CreateListing() {
             ))}
           <button
             disabled={loading || uploading}
-            className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+            className="text-white bg-blue-700 hover:bg-blue-800 rounded-lg p-3 uppercase"
           >
             {loading ? "Creating..." : "Create listing"}
           </button>
-          {error && <p className="text-red-700 text-sm">{error}</p>}
+
+          {error && (
+            <div
+              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-5"
+              role="alert"
+            >
+              <span className="block sm:inline">{error}</span>
+            </div>
+          )}
         </div>
       </form>
     </main>

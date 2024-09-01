@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const [searchTerm, setSearchTerm] = useState(" ");
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,13 +24,13 @@ const Header = () => {
     navigate(`/search?${searchQuery}`);
   };
   return (
-    <header className="bg-slate-200 shadow-md">
+    <header className="bg-blue-800 shadow-md">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         {/* Link to home page */}
         <Link to="/">
-          <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-            <span className="text-slate-500">Aayush</span>
-            <span className="text-slate-700">Estate</span>
+          <h1 className="font-bold text-lg sm:text-xl flex flex-wrap">
+            <span className="text-white">Havencrest</span>
+            <span className="text-white">Estate</span>
           </h1>
         </Link>
 
@@ -47,19 +47,19 @@ const Header = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button>
-            <FaSearch className="text-slate-600" />
+            <FaSearch className="text-[#162521]" />
           </button>
         </form>
 
         {/* Navigation links */}
         <ul className="flex gap-4">
           <Link to="/">
-            <li className="hidden sm:inline text-slate-700 hover:underline">
+            <li className="hidden sm:inline text-white hover:underline underline-offset-2">
               Home
             </li>
           </Link>
           <Link to="/about">
-            <li className="hidden sm:inline text-slate-700 hover:underline">
+            <li className="hidden sm:inline text-white hover:underline underline-offset-2">
               About
             </li>
           </Link>
@@ -71,7 +71,7 @@ const Header = () => {
                 alt="profile"
               />
             ) : (
-              <li className="sm:inline text-slate-700 hover:underline">
+              <li className="sm:inline text-white hover:underline underline-offset-2">
                 Sign In
               </li>
             )}

@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const fileRef = useRef(null);
+  const listingsRef = useRef(null);
   const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
@@ -138,6 +139,10 @@ const Profile = () => {
         return;
       }
       setUserListings(data);
+      // Scroll to the listings section
+      if (listingsRef.current) {
+        listingsRef.current.scrollIntoView({ behavior: "smooth" });
+      }
     } catch (error) {
       setShowListingError(true);
     }
@@ -164,7 +169,9 @@ const Profile = () => {
 
   return (
     <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
+      <h1 className="text-4xl font-semibold text-center my-7 text-slate-700 tracking-wide">
+        Profile
+      </h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           onChange={(e) => setFile(e.target.files[0])}
@@ -188,14 +195,14 @@ const Profile = () => {
             <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
           ) : (
             filePerc === 100 && (
-              <span className="text-green-700">Successfully Uploaded</span>
+              <span className="text-blue-700">Successfully Uploaded</span>
             )
           )}
         </p>
         <input
           type="text"
           placeholder="Username"
-          className="border p-3 rounded-lg"
+          className="border p-3 rounded-lg border-slate-300"
           defaultValue={currentUser.username}
           id="username"
           onChange={handleChange}
@@ -203,7 +210,7 @@ const Profile = () => {
         <input
           type="email"
           placeholder="Email"
-          className="border p-3 rounded-lg"
+          className="border p-3 rounded-lg border-slate-300"
           defaultValue={currentUser.email}
           id="email"
           onChange={handleChange}
@@ -211,19 +218,19 @@ const Profile = () => {
         <input
           type="password"
           placeholder="Password"
-          className="border p-3 rounded-lg"
+          className="border p-3 rounded-lg border-slate-300"
           id="password"
           onChange={handleChange}
         />
         <button
           disabled={loading}
-          className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
+          className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:bg-slate-800 disabled:opacity-80"
         >
           {loading ? "Loading..." : "Update"}
         </button>
         <Link
           to={"/create-listing"}
-          className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95"
+          className="bg-blue-700 text-white p-3 rounded-lg uppercase text-center hover:bg-blue-800"
         >
           Create Listing
         </Link>
@@ -232,11 +239,11 @@ const Profile = () => {
       <div className="flex justify-between mt-5">
         <span
           onClick={handleDeleteUser}
-          className="text-red-700 cursor-pointer"
+          className="cursor-pointer text-red-700"
         >
           Delete Account
         </span>
-        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
+        <span onClick={handleSignOut} className="cursor-pointer text-red-700">
           Sign Out
         </span>
       </div>
@@ -244,52 +251,59 @@ const Profile = () => {
       <p className="text-green-700 mt-5">
         {updateSuccess ? "User is updated successfully!" : ""}
       </p>
-      <button onClick={handleShowListings} className="text-green-700 w-full">
+      <button
+        onClick={handleShowListings}
+        className="text-green-700 cursor-pointer w-full font-semibold text-lg"
+      >
         Show Listings
       </button>
       <p className="text-red-700 mt-5">
         {showListingError ? "Error showing the listings" : ""}
       </p>
 
-      {userListings && userListings.length > 0 && (
-        <div className="flex flex-col gap-4">
-          <h1 className="text-center mt-7 text-2xl font-semibold">
-            Your Listings
-          </h1>
-          {userListings.map((listing) => (
-            <div
-              className="border rounded-lg p-3 flex justify-between items-center gap-4"
-              key={listing._id}
-            >
-              <Link to={`/listing/${listing._id}`}>
-                <img
-                  src={listing.imageUrls[0]}
-                  alt="Listing Cover"
-                  className="h-16 w-16 object-contain"
-                />
-              </Link>
-              <Link
-                to={`/listing/${listing._id}`}
-                className="flex-1 text-slate-700 font-semibold hover:underline underline-offset-2 truncate"
+      <div ref={listingsRef}>
+        {userListings && userListings.length > 0 && (
+          <div className="flex flex-col gap-4">
+            <h1 className="text-center mt-7 text-2xl font-semibold ">
+              Your Listings
+            </h1>
+            {userListings.map((listing) => (
+              <div
+                className="border border-slate-300 rounded-lg p-3 flex justify-between items-center gap-4"
+                key={listing._id}
               >
-                <p>{listing.name}</p>
-              </Link>
-              <div className="flex flex-col items-center">
-                <button
-                  onClick={() => handleListingDelete(listing._id)}
-                  className="text-red-700"
-                >
-                  Delete
-                </button>
-
-                <Link to={`/update-listing/${listing._id}`}>
-                  <button className="text-green-700 uppercase">Edit</button>
+                <Link to={`/listing/${listing._id}`}>
+                  <img
+                    src={listing.imageUrls[0]}
+                    alt="Listing Cover"
+                    className="h-16 w-16 object-contain"
+                  />
                 </Link>
+                <Link
+                  to={`/listing/${listing._id}`}
+                  className="flex-1 text-slate-700 font-semibold hover:underline underline-offset-2 truncate text-md line-clamp-3"
+                >
+                  <p>{listing.name}</p>
+                </Link>
+                <div className="flex flex-col items-center">
+                  <button
+                    onClick={() => handleListingDelete(listing._id)}
+                    className="rounded-lg bg-red-700 p-2 w-20 m-1 text-lime-50"
+                  >
+                    Delete
+                  </button>
+
+                  <Link to={`/update-listing/${listing._id}`}>
+                    <button className="rounded-lg bg-green-700 p-2 w-20 m-1 text-lime-50">
+                      Edit
+                    </button>
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
