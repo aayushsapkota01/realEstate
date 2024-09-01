@@ -102,7 +102,7 @@ export default function Home() {
                 Show more offers
               </Link>
             </div>
-            <div className="flex flex-wrap gap-16">
+            <div className="flex flex-wrap gap-16 justify-center items-center">
               {offerListings.map((listing) => (
                 <ListingItem listing={listing} key={listing._id} />
               ))}
@@ -122,7 +122,7 @@ export default function Home() {
                 Show more places for rent
               </Link>
             </div>
-            <div className="flex flex-wrap gap-16">
+            <div className="flex flex-wrap gap-16 justify-center items-center">
               {rentListings.map((listing) => (
                 <ListingItem listing={listing} key={listing._id} />
               ))}
@@ -142,7 +142,7 @@ export default function Home() {
                 Show more places for sale
               </Link>
             </div>
-            <div className="flex flex-wrap gap-16">
+            <div className="flex flex-wrap gap-16 justify-center items-center">
               {saleListings.map((listing) => (
                 <ListingItem listing={listing} key={listing._id} />
               ))}
