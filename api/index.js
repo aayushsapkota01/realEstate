@@ -28,8 +28,12 @@ app.use(cors());
 
 // Security headers
 app.use(
-  helmet({
-    crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }, // Adjust the policy
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https://firebasestorage.googleapis.com"],
+      // Add other directives as needed
+    },
   })
 );
 
