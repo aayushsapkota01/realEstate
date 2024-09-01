@@ -31,7 +31,36 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "https://firebasestorage.googleapis.com"],
+      scriptSrc: [
+        "'self'",
+        "https://apis.google.com", // For Google OAuth
+        "https://www.gstatic.com", // For Google scripts and styles
+        "https://www.googleapis.com", // For Google APIs
+        "https://identitytoolkit.googleapis.com", // For Firebase Authentication
+      ],
+      connectSrc: [
+        "'self'",
+        "https://www.googleapis.com", // For Google APIs
+        "https://identitytoolkit.googleapis.com", // For Firebase Authentication
+        "https://firebasestorage.googleapis.com", // For Firebase Storage
+        "https://*.firebaseio.com", // For Firebase Realtime Database (if used)
+      ],
+      imgSrc: [
+        "'self'",
+        "data:",
+        "https://firebasestorage.googleapis.com", // For Firebase Storage
+        "https://www.gstatic.com", // For Google images
+      ],
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'", // Allow inline styles if needed
+        "https://fonts.googleapis.com", // If using Google Fonts
+      ],
+      fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com", // If using Google Fonts
+      ],
+      frameAncestors: ["'none'"], // Adjust based on your requirements
       // Add other directives as needed
     },
   })
