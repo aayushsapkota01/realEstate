@@ -51,15 +51,6 @@ app.use(
         "https://firebasestorage.googleapis.com", // For Firebase Storage
         "https://www.gstatic.com", // For Google images
       ],
-      styleSrc: [
-        "'self'",
-        "'unsafe-inline'", // Allow inline styles if needed
-        "https://fonts.googleapis.com", // If using Google Fonts
-      ],
-      fontSrc: [
-        "'self'",
-        "https://fonts.gstatic.com", // If using Google Fonts
-      ],
       frameAncestors: ["'none'"], // Adjust based on your requirements
       // Add other directives as needed
     },
