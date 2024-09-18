@@ -16,35 +16,62 @@ export default function Home() {
     const fetchOfferListings = async () => {
       try {
         const res = await fetch("/api/listing/get?offer=true&limit=6");
+        if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
+
+        // Check if the response is JSON
+        const contentType = res.headers.get('Content-Type');
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Response is not JSON');
+        }
+
         const data = await res.json();
         setOfferListings(data);
         fetchRentListings();
       } catch (error) {
-        console.log(error);
+        console.error("Failed to fetch offer listings:", error);
       }
     };
+
     const fetchRentListings = async () => {
       try {
         const res = await fetch("/api/listing/get?type=rent&limit=6");
+        if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
+
+        // Check if the response is JSON
+        const contentType = res.headers.get('Content-Type');
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Response is not JSON');
+        }
+
         const data = await res.json();
         setRentListings(data);
         fetchSaleListings();
       } catch (error) {
-        console.log(error);
+        console.error("Failed to fetch rent listings:", error);
       }
     };
 
     const fetchSaleListings = async () => {
       try {
         const res = await fetch("/api/listing/get?type=sale&limit=6");
+        if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
+
+        // Check if the response is JSON
+        const contentType = res.headers.get('Content-Type');
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Response is not JSON');
+        }
+
         const data = await res.json();
         setSaleListings(data);
       } catch (error) {
-        console.log(error);
+        console.error("Failed to fetch sale listings:", error);
       }
     };
+
     fetchOfferListings();
   }, []);
+
   return (
     <div>
       {/* top */}
@@ -87,7 +114,6 @@ export default function Home() {
       </Swiper>
 
       {/* listing results for offer, sale and rent */}
-
       <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
         {offerListings && offerListings.length > 0 && (
           <div className="">
