@@ -26,37 +26,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
-// Security headers
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "https://apis.google.com", // For Google OAuth
-        "https://www.gstatic.com", // For Google scripts and styles
-        "https://www.googleapis.com", // For Google APIs
-        "https://identitytoolkit.googleapis.com", // For Firebase Authentication
-      ],
-      connectSrc: [
-        "'self'",
-        "https://www.googleapis.com", // For Google APIs
-        "https://identitytoolkit.googleapis.com", // For Firebase Authentication
-        "https://firebasestorage.googleapis.com", // For Firebase Storage
-        "https://*.firebaseio.com", // For Firebase Realtime Database (if used)
-      ],
-      imgSrc: [
-        "'self'",
-        "data:",
-        "https://firebasestorage.googleapis.com", // For Firebase Storage
-        "https://www.gstatic.com", // For Google images
-      ],
-      frameAncestors: ["'none'"], // Adjust based on your requirements
-      // Add other directives as needed
-    },
-  })
-);
-
 app.listen(3000, () => {
   console.log("Server is running on port 3000!");
 });
